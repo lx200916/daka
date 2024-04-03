@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 export type CalendarDay = {
   dateString: string;

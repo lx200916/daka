@@ -16,12 +16,12 @@ import {
 import { Progress } from "./components/ui/progress";
 function App() {
   const [userId, setUserId] = useState("");
-  const [data, setData] = useState({});
+  const [, setData] = useState({});
   const [calendar, setCalendar] = useState<CalendarDay[]>([]);
   const [hoursofMonth, setHoursofMonth] = useState(0);
   const [hoursofWeek, setHoursofWeek] = useState(0);
   const [hoursofToday, setHoursofToday] = useState(0);
-  const [today, setToday] = useState(new Date());
+  const [today] = useState(new Date());
   useEffect(() => {
     // get userId from search params
     const searchParams = new URLSearchParams(window.location.search);
