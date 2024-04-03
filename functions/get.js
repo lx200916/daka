@@ -5,7 +5,7 @@ export async function onRequest(context) {
 console.log(params);
 
   // get by userId
-  const task = await context.env.DAKA.get(params.userId);
+  const task = await context.env.DAKA.get(params.get("userId"));
   if (task) {
     return new Response(task);
   }
