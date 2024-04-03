@@ -103,7 +103,7 @@ function App() {
               <CardHeader className="pb-2">
                 <CardDescription>今日打卡</CardDescription>
                 <CardTitle className="text-4xl">
-                  {Math.floor(hoursofToday / 60)}
+                  {Math.floor(hoursofToday / 60)}{" "}
                   <span className="text-sm">Hrs</span>
                 </CardTitle>
                 <CardTitle className="text-4xl">
