@@ -2,6 +2,7 @@ export async function onRequest(context) {
   //get search params
   const url = new URL(context.request.url);
   const params = url.searchParams;
+console.log(params);
 
   // get by userId
   const task = await context.env.DAKA.get(params.userId);
