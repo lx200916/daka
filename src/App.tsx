@@ -93,7 +93,7 @@ function App() {
                     }
                   >
                     <circle
-                      className="text-gray-300 "
+                      className="text-gray-300 dark:text-gray-700"
                       stroke-width="15"
                       stroke="currentColor"
                       fill="transparent"
@@ -193,7 +193,7 @@ function App() {
                       "flex items-center justify-center  flex-1 h-10 flex-col" +
                       (day?.isToday
                         ? // black-bg white-foreground rounded-full
-                          " bg-black text-white rounded-lg"
+                          " bg-black text-white rounded-lg dark:bg-gray-800"
                         : "") +
                       (day?.isFuture ? " text-muted-foreground" : "")
                     }
