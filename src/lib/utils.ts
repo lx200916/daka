@@ -32,7 +32,7 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
     const today = dayjs();
     const isFuture = date.isAfter(today, 'day');
     const isToday = date.isSame(today, 'day');
-    const count = Math.floor(data[date.valueOf() / 3600 / 1000]) || 0;
+    const count = Math.floor(data[date.valueOf()] / 3600 / 1000) || 0;
     calendar.push({
       dateString: date.format('YYYY-MM-DD'),
       weekday: date.day(),
