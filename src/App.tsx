@@ -29,7 +29,7 @@ function App() {
     if (userId) {
       setUserId(userId);
     }
-  });
+  }, []);
   useEffect(() => {
     fetch("/get?userId=" + userId).then((response) => {
       response.json().then((data) => {
@@ -47,9 +47,10 @@ function App() {
             records
           )
         );
+        console.log(calendar);
       });
     });
-  });
+  }, [userId]);
 
   return (
     <>
