@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "./components/ui/progress";
 function App() {
-  const circumference = 2 * Math.PI;
-
   const [userId, setUserId] = useState("");
   const [, setData] = useState({});
   const [calendar, setCalendar] = useState<CalendarDay[]>([]);
