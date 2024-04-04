@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "./components/ui/progress";
 function App() {
+  const circumference = 2 * Math.PI;
+
   const [userId, setUserId] = useState("");
   const [, setData] = useState({});
   const [calendar, setCalendar] = useState<CalendarDay[]>([]);
@@ -69,9 +71,42 @@ function App() {
                     <strong>{hoursofMonth}Hrs</strong>
                   </CardDescription>
                 </div>
-                <div className="flex flex-col basis-2/5 py-2">
-                  <div
-                    className="radial-progress "
+                <div className="relative flex justify-center items-center basis-2/5 py-2">
+                  <svg
+                    className="w-full h-full progress"
+                    style={
+                      {
+                        "--r": "0.36",
+                        "--progress": `${hoursofMonth / 280}`,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <circle
+                      className="text-gray-300 "
+                      stroke-width="15"
+                      stroke="currentColor"
+                      fill="transparent"
+                      r="36%"
+                      cx="50%"
+                      cy="50%"
+                    />
+                    <circle
+                      // className="text-blue-600"
+                      className="bar"
+                      strokeWidth="15"
+                      strokeLinecap="round"
+                      stroke="currentColor"
+                      fill="transparent"
+                      r="36%"
+                      cx="50%"
+                      cy="50%"
+                    />
+                  </svg>
+                  <strong className="absolute inset-0 flex items-center justify-center text-2xl">
+                    {((hoursofMonth / 2.8) * 100).toFixed(2)}%
+                  </strong>
+                  {/* <div
+                    className="radial-progress bg-primary-foreground"
                     role="progressbar"
                     style={
                       {
@@ -82,7 +117,7 @@ function App() {
                     <strong className="text-xl">
                       {(hoursofMonth / 2.8).toFixed(2)}%
                     </strong>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </Card>

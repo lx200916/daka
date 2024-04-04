@@ -84,3 +84,7 @@
   transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size)/2 - 50%));
   background-color: currentColor
 }
+.progress .bar {
+  stroke-dasharray: calc(2 * 3.14159 * var(--r) * 100%);
+  stroke-dashoffset: calc((1 - var(--progress)) * 2 * 3.14159 * var(--r) * 100%);
+}
