@@ -31,6 +31,19 @@ function App() {
     }
   }, []);
   useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.classList.remove("light", "dark");
+
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
+
+    root.classList.add(systemTheme);
+    return;
+  }, []);
+  useEffect(() => {
     fetch("/get?userId=" + userId).then((response) => {
       response.json().then((data) => {
         setData(data["record"]);
