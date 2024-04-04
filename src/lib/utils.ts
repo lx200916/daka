@@ -24,7 +24,7 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
   for (let i = 1; i < date.day(); i++) {
     calendar.push(null);
   }
-  console.log(data);
+  // console.log(data);
 
 
   // 填充本月的日期
@@ -48,6 +48,7 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
   while (calendar.length % 7 !== 0) {
     calendar.push(null);
   }
+  console.log(calendar);
 
   return calendar;
 }
