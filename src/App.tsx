@@ -65,7 +65,7 @@ function App() {
                     {hoursofMonth} <span className="text-sm">Hrs</span>
                   </CardTitle>
                   <CardDescription className="max-w-lg text-balance leading-relaxed">
-                    打卡总时长要求为 <strong>280Hrs</strong>，已打卡{" "}
+                    打卡总时长要求为 <strong>160Hrs</strong>，已打卡{" "}
                     <strong>{hoursofMonth}Hrs</strong>
                   </CardDescription>
                 </div>
@@ -75,7 +75,7 @@ function App() {
                     style={
                       {
                         "--r": "0.36",
-                        "--progress": `${hoursofMonth / 280}`,
+                        "--progress": `${hoursofMonth / 160}`,
                       } as React.CSSProperties
                     }
                   >
@@ -101,7 +101,7 @@ function App() {
                     />
                   </svg>
                   <strong className="absolute inset-0 flex items-center justify-center text-2xl">
-                    {(hoursofMonth / 2.8).toFixed(2)}%
+                    {(hoursofMonth / 1.6).toFixed(2)}%
                   </strong>
                   {/* <div
                     className="radial-progress bg-primary-foreground"
