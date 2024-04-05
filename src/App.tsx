@@ -257,7 +257,7 @@ function App() {
                   <TableCaption>A list of your recent invoices.</TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px]">打卡时间 </TableHead>
+                      <TableHead className="w-2/3">打卡时间 </TableHead>
                       <TableHead className="text-right">备注</TableHead>
                     </TableRow>
                   </TableHeader>
