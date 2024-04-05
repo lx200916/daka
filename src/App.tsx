@@ -232,7 +232,7 @@ function App() {
                       <div
                         className={
                           "w-1 h-1 rounded-full " +
-                          (day.count > 8 ? "bg-sky-400" : "bg-red-400")
+                          (day.count >= 8 ? "bg-sky-400" : "bg-red-400")
                         }
                       ></div>
                     )}
