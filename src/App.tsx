@@ -3,6 +3,8 @@ import {
   generateCalendarMonth,
   getWeeklyDuration,
   CalendarDay,
+  Record,
+  Role,
 } from "@/lib/utils";
 import "./App.css";
 import {
@@ -13,7 +15,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+
 import { Progress } from "./components/ui/progress";
+import { Button } from "./components/ui/button";
+import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/ui/table";
+import { Badge } from "./components/ui/badge";
 function App() {
   const [userId, setUserId] = useState("");
   const [, setData] = useState({});
@@ -22,6 +46,8 @@ function App() {
   const [hoursofWeek, setHoursofWeek] = useState(0);
   const [hoursofToday, setHoursofToday] = useState(0);
   const [today] = useState(new Date());
+  const [records, setRecords] = useState<Record[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   useEffect(() => {
     // get userId from search params
     const searchParams = new URLSearchParams(window.location.search);
@@ -187,6 +213,10 @@ function App() {
               <div className="grid grid-cols-7">
                 {calendar.map((day, index) => (
                   <div
+                    onClick={() => {
+                      setRecords(day?.records || []);
+                      setDrawerOpen(true);
+                    }}
                     key={index}
                     className={
                       // aspect ratio 1.5:1 rounded-full
@@ -214,6 +244,54 @@ function App() {
           </div>
         </CardContent>
       </Card>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle>打卡记录</DrawerTitle>
+              <DrawerDescription>查看当天详细记录 📝</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4 pb-0">
+              <div className="mt-3 h-[120px]">
+                <Table>
+                  <TableCaption>A list of your recent invoices.</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">打卡时间 </TableHead>
+                      <TableHead className="text-right">备注</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {records.map((record) => (
+                      <TableRow key={record?.timestamp}>
+                        <TableCell className="font-medium">
+                          {record?.timestamp}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {record?.role !== Role.None && (
+                            <Badge>{record?.role}</Badge>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={3}>Total</TableCell>
+                      <TableCell className="text-right">
+                        {records.length}
+                      </TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </div>
+            </div>
+            <DrawerFooter>
+              <Button>Submit</Button>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }

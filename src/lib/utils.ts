@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 import dayjs from 'dayjs';
-
+export type Record = { "timestamp": string, "role": Role } | null;
 export type CalendarDay = {
   dateString: string;
   weekday: number;
@@ -14,9 +14,10 @@ export type CalendarDay = {
   isFuture: boolean;
   isToday: boolean;
   count?: number;
+  records?: Record[];
 } | null;
 // data is a dictionary with timestamp as the key and the number of records as the count
-export function generateCalendarMonth(year: number, month: number, data: { [key: number]: number }): CalendarDay[] {
+export function generateCalendarMonth(year: number, month: number, data: { [key: number]: { "total": number, "r": Record[] } }): CalendarDay[] {
   let calendar: CalendarDay[] = [];
   let date = dayjs(`${year}-${month.toString().padStart(2, '0')}-01`);
   console.log(date);
@@ -32,7 +33,8 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
     const today = dayjs();
     const isFuture = date.isAfter(today, 'day');
     const isToday = date.isSame(today, 'day');
-    const count = Math.floor(data[date.valueOf()] / 3600 / 1000) || 0;
+    const data_ = data[date.valueOf()] || { total: 0, r: [] };
+    const count = Math.floor(data_.total / 3600 / 1000) || 0;
     calendar.push({
       dateString: date.format('YYYY-MM-DD'),
       weekday: date.day(),
@@ -40,6 +42,7 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
       isFuture,
       isToday,
       count,
+      records: data_.r,
     });
     date = date.add(1, 'day');
   }
@@ -57,9 +60,13 @@ export type Records = {
     date: number;
   }[];
 };
+export enum Role {
+  "Checkin" = "checkin",
+  "Checkout" = "checkout",
+  "None" = "none",
+}
 
-
-export function getWeeklyDuration(records: Records): [number, number, number, { [key: number]: number }] {
+export function getWeeklyDuration(records: Records): [number, number, number, { [key: number]: { "total": number, "r": Record[] } }] {
   // Helper function to get the date of the Monday of the current week
   function getMonday(d: Date): Date {
     const day = d.getDay(),
@@ -83,28 +90,46 @@ export function getWeeklyDuration(records: Records): [number, number, number, { 
     const year = new Date().getFullYear(); // Assuming it's the current year
     return new Date(year, month - 1, day);
   }
-  let records_: { [key: number]: number } = {};
+  let records_: { [key: number]: { "total": number, "r": Record[] } } = {};
   let today = new Date();
   // Calculate the duration of each day in the current week
   let weeklyDuration = 0;
   let monthlyDuration = 0;
   let dailyDuration = 0;
   for (const [key, timestamps] of Object.entries(records)) {
-    const timestamps_ = timestamps.map(t => t.date);
+    const timestamps_ = timestamps.map(t => t.date).sort();
+    const r = [];
+    for (let i = 0; i < timestamps_.length; i += 1) {
+      let role = Role.None;
+      // First is checkin, last is checkout
+      if (i == 0) {
+        role = Role.Checkin;
+      } else if (i == timestamps_.length - 1) {
+        role = Role.Checkout;
+      }
+      const hours_minutes_seconds_str = new Date(timestamps_[i]).toLocaleTimeString().split(' ')[0];
+      r.push({ "timestamp": hours_minutes_seconds_str, "role": role });
+    }
     const date = parseDateFromKey(key);
     const month = date.getMonth();
+    const duration = Math.max(...timestamps_) - Math.min(...timestamps_);
     if (month == today.getMonth()) {
-      monthlyDuration += Math.max(...timestamps_) - Math.min(...timestamps_);
+      monthlyDuration += duration;
+      if (records_[date.valueOf()] == undefined) {
+        records_[date.valueOf()] = { "total": 0, "r": [] };
+      }
+      records_[date.valueOf()]["total"] += duration;
+      records_[date.valueOf()]["r"].push(...r);
     }
     if (date.getDate() == today.getDate() && date.getMonth() == today.getMonth()) {
-      dailyDuration += Math.max(...timestamps_) - Math.min(...timestamps_);
+      dailyDuration += duration;
     }
 
     if (isInCurrentWeek(date)) {
       const dailyDuration = Math.max(...timestamps_) - Math.min(...timestamps_);
       weeklyDuration += dailyDuration;
-      records_[date.valueOf()] = dailyDuration + (records_[date.valueOf()] || 0);
     }
+
   }
 
   return [weeklyDuration, monthlyDuration, dailyDuration, records_];
