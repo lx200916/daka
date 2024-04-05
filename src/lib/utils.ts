@@ -107,7 +107,8 @@ export function getWeeklyDuration(records: Records): [number, number, number, { 
       } else if (i == timestamps_.length - 1) {
         role = Role.Checkout;
       }
-      const hours_minutes_seconds_str = new Date(timestamps_[i]).toUTCString().split(' ')[0];
+      // to utc +00 timezone time string
+      const hours_minutes_seconds_str = new Date(timestamps_[i]).toISOString().slice(11, 19);
       r.push({ "timestamp": hours_minutes_seconds_str, "role": role });
     }
     const date = parseDateFromKey(key);
