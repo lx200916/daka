@@ -243,7 +243,11 @@ function App() {
           </div>
         </CardContent>
       </Card>
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        modal={true}
+      >
         <DrawerContent>
           <div className="mx-auto w-full max-w-sm">
             <DrawerHeader>
@@ -285,7 +289,13 @@ function App() {
               </div>
             </div>
             <DrawerFooter>
-              <Button>Submit</Button>
+              <Button
+                onClick={() => {
+                  setDrawerOpen(false);
+                }}
+              >
+                Close
+              </Button>
             </DrawerFooter>
           </div>
         </DrawerContent>
