@@ -139,7 +139,7 @@ function App() {
                     />
                   </svg>
                   <strong className="absolute inset-0 flex items-center justify-center text-2xl">
-                    {(hoursofMonth / 1.6).toFixed(2)}%
+                    {(hoursofMonth / 1.6).toFixed(1)}%
                   </strong>
                   {/* <div
                     className="radial-progress bg-primary-foreground"
