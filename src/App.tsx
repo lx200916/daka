@@ -251,10 +251,9 @@ function App() {
               <DrawerTitle>打卡记录</DrawerTitle>
               <DrawerDescription>查看当天详细记录 📝</DrawerDescription>
             </DrawerHeader>
-            <div className="p-4 pb-0">
+            <div className="p-4 pb-2">
               <div className="mt-3 h-[120px]">
                 <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-2/3">打卡时间 </TableHead>
