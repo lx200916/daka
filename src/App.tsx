@@ -252,7 +252,7 @@ function App() {
               <DrawerDescription>查看当天详细记录 📝</DrawerDescription>
             </DrawerHeader>
             <div className="p-4 pb-2">
-              <div className="mt-3 h-[120px]">
+              <div className="">
                 <Table>
                   <TableHeader>
                     <TableRow>
