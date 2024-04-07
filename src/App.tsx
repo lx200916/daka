@@ -168,7 +168,7 @@ function App() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Progress value={Math.min(hoursofWeek / 0.4, 1.0)} />
+                <Progress value={Math.min(hoursofWeek / 0.4, 100.0)} />
               </CardFooter>
             </Card>
             <Card>
@@ -184,7 +184,7 @@ function App() {
               </CardHeader>
 
               <CardFooter>
-                <Progress value={Math.min(hoursofToday / (0.08 * 60), 1.0)} />
+                <Progress value={Math.min(hoursofToday / (0.08 * 60), 100.0)} />
               </CardFooter>
             </Card>
           </div>
