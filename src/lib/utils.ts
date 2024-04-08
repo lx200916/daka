@@ -76,11 +76,12 @@ export function getWeeklyDuration(records: Records): [number, number, number, { 
 
   // Helper function to check if a date is in the current week
   function isInCurrentWeek(date: Date): boolean {
-    const today = new Date();
+    // get today date and time is 00:00:00
+    const today = new Date().setHours(0, 0, 0, 0);
     const monday = getMonday(new Date(today));
     const sunday = new Date(monday.getTime());
     sunday.setDate(monday.getDate() + 6);
-    console.log(monday, sunday, date);
+    console.log(monday, sunday, date, date >= monday && date <= sunday);
 
     return date >= monday && date <= sunday;
   }
