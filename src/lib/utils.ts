@@ -80,6 +80,7 @@ export function getWeeklyDuration(records: Records): [number, number, number, { 
     const monday = getMonday(new Date(today));
     const sunday = new Date(monday.getTime());
     sunday.setDate(monday.getDate() + 6);
+    console.log(monday, sunday, date);
 
     return date >= monday && date <= sunday;
   }
@@ -127,8 +128,7 @@ export function getWeeklyDuration(records: Records): [number, number, number, { 
     }
 
     if (isInCurrentWeek(date)) {
-      const dailyDuration = Math.max(...timestamps_) - Math.min(...timestamps_);
-      weeklyDuration += dailyDuration;
+      weeklyDuration += duration;
     }
 
   }
