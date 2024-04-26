@@ -277,7 +277,7 @@ function App() {
                       fetch("/get?userId=" + userId, {
                         method: "POST",
                         body: JSON.stringify({
-                          date: addTimeValue?.valueOf(),
+                          date: addTimeValue?.valueOf() + 8 * 60 * 60 * 1000,
                           userId: userId,
                         }),
                       }).then((response) => {
