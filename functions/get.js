@@ -31,6 +31,7 @@ export async function onRequest(context) {
   if (!params.get("userId")) {
     return new Response("{}", { status: 200 });
   }
+  console.log("Method", context.request.method);
   switch (context.request.method) {
     case "GET":
       return await getByUserId(context, params);
