@@ -279,7 +279,7 @@ function App() {
                         userId: userId,
                       }),
                     }).then((response) => {
-                      response.json().then((data) => {
+                      response.json().then(() => {
                         setDrawerOpen(false);
                         console.log(calendar);
                       });
