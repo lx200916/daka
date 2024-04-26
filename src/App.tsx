@@ -260,7 +260,8 @@ function App() {
               <DrawerDescription>查看当天详细记录 📝</DrawerDescription>
             </DrawerHeader>
             {addTime && (
-              <div className="p-4">
+              // div keep center
+              <div className="p-4 text-center">
                 <div>
                   <TimePickerDemo
                     date={addTimeValue}
