@@ -273,7 +273,7 @@ function App() {
                   className="w-full mt-2"
                   onClick={() => {
                     addTimeValue &&
-                      fetch("/add?userId=" + userId, {
+                      fetch("/get?userId=" + userId, {
                         method: "POST",
                         body: JSON.stringify({
                           date: addTimeValue?.valueOf() - 8 * 60 * 60 * 1000,
