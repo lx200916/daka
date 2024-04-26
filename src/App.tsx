@@ -342,6 +342,7 @@ function App() {
                   </Table>
                 </div>
                 <Button
+                  className="w-full mt-2"
                   onClick={() => {
                     setAddTime(true);
                   }}
