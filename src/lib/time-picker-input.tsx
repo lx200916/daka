@@ -64,6 +64,7 @@ const TimePickerInput = React.forwardRef<
     );
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        console.log(e.key);
       if (e.key === "Tab") return;
       e.preventDefault();
       if (e.key === "ArrowRight") onRightFocus?.();
