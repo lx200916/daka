@@ -47,6 +47,8 @@ function App() {
   const [today] = useState(new Date());
   const [records, setRecords] = useState<Record[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [addTime, setAddTime] = useState(false);
+  const [addTimeValue, setAddTimeValue] = useState(0);
   useEffect(() => {
     // get userId from search params
     const searchParams = new URLSearchParams(window.location.search);
@@ -254,40 +256,100 @@ function App() {
               <DrawerTitle>打卡记录</DrawerTitle>
               <DrawerDescription>查看当天详细记录 📝</DrawerDescription>
             </DrawerHeader>
-            <div className="p-4 pb-2">
-              <div className="">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-2/3">打卡时间 </TableHead>
-                      <TableHead className="text-right">备注</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {records.map((record) => (
-                      <TableRow key={record?.timestamp}>
-                        <TableCell className="font-medium">
-                          {record?.timestamp}
-                        </TableCell>
+            {addTime && (
+              <div className="p-4">
+                <input
+                  type="number"
+                  value={addTimeValue}
+                  onChange={(e) => setAddTimeValue(Number(e.target.value))}
+                />
+                <Button
+                  onClick={() => {
+                    fetch("/add?userId=" + userId, {
+                      method: "POST",
+                      body: JSON.stringify({
+                        timestamp: new Date().toISOString(),
+                        role: Role.Checkin,
+                        value: addTimeValue * 60 * 1000,
+                      }),
+                    }).then((response) => {
+                      response.json().then((data) => {
+                        setData(data["record"]);
+                        const [
+                          timestampofWeek,
+                          timestampofMonth,
+                          timestampofToday,
+                          records,
+                        ] = getWeeklyDuration(data["record"]);
+                        const today = new Date();
+                        setHoursofMonth(
+                          Math.floor(timestampofMonth / 3600 / 1000)
+                        );
+                        setHoursofWeek(
+                          Math.floor(timestampofWeek / 3600 / 1000)
+                        );
+                        setHoursofToday(
+                          Math.floor(timestampofToday / 60 / 1000)
+                        );
+                        setCalendar(
+                          generateCalendarMonth(
+                            today.getFullYear(),
+                            today.getMonth() + 1,
+                            records
+                          )
+                        );
+                        console.log(calendar);
+                      });
+                    });
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
+            )}
+            {!addTime && (
+              <div className="p-4 pb-2">
+                <div className="">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-2/3">打卡时间 </TableHead>
+                        <TableHead className="text-right">备注</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {records.map((record) => (
+                        <TableRow key={record?.timestamp}>
+                          <TableCell className="font-medium">
+                            {record?.timestamp}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {record?.role !== Role.None && (
+                              <Badge>{record?.role}</Badge>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TableCell colSpan={3}>Total</TableCell>
                         <TableCell className="text-right">
-                          {record?.role !== Role.None && (
-                            <Badge>{record?.role}</Badge>
-                          )}
+                          {records.length}
                         </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={3}>Total</TableCell>
-                      <TableCell className="text-right">
-                        {records.length}
-                      </TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
+                    </TableFooter>
+                  </Table>
+                </div>
+                <Button
+                  onClick={() => {
+                    setAddTime(true);
+                  }}
+                >
+                  Add
+                </Button>
               </div>
-            </div>
+            )}
             <DrawerFooter>
               <Button
                 onClick={() => {
