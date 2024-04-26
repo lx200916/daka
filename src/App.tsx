@@ -23,7 +23,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-
+import { TimePickerDemo } from "./timePickInput";
 import { Progress } from "./components/ui/progress";
 import { Button } from "./components/ui/button";
 import React from "react";
@@ -48,7 +48,7 @@ function App() {
   const [records, setRecords] = useState<Record[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [addTime, setAddTime] = useState(false);
-  const [addTimeValue, setAddTimeValue] = useState(0);
+  const [addTimeValue, setAddTimeValue] = useState<Date>();
   useEffect(() => {
     // get userId from search params
     const searchParams = new URLSearchParams(window.location.search);
@@ -217,6 +217,9 @@ function App() {
                     onClick={() => {
                       setRecords(day?.records || []);
                       setDrawerOpen(true);
+                      setAddTimeValue(
+                        day?.timestamp ? new Date(day.timestamp) : undefined
+                      );
                     }}
                     key={index}
                     className={
@@ -258,12 +261,15 @@ function App() {
             </DrawerHeader>
             {addTime && (
               <div className="p-4">
-                <input
-                  type="number"
-                  value={addTimeValue}
-                  onChange={(e) => setAddTimeValue(Number(e.target.value))}
-                />
+                <div>
+                  <TimePickerDemo
+                    date={addTimeValue}
+                    setDate={(date) => setAddTimeValue(date)}
+                  ></TimePickerDemo>
+                </div>
                 <Button
+                  disabled={!addTimeValue}
+                  variant="outline"
                   className="w-full mt-2"
                   onClick={() => {
                     fetch("/add?userId=" + userId, {
@@ -275,7 +281,6 @@ function App() {
                     }).then((response) => {
                       response.json().then((data) => {
                         setDrawerOpen(false);
-
                         console.log(calendar);
                       });
                     });
@@ -320,6 +325,7 @@ function App() {
                   </Table>
                 </div>
                 <Button
+                  variant="outline"
                   className="w-full mt-2"
                   onClick={() => {
                     setAddTime(true);

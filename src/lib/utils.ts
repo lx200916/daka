@@ -15,6 +15,7 @@ export type CalendarDay = {
   isToday: boolean;
   count?: number;
   records?: Record[];
+  timestamp?: number;
 } | null;
 // data is a dictionary with timestamp as the key and the number of records as the count
 export function generateCalendarMonth(year: number, month: number, data: { [key: number]: { "total": number, "r": Record[] } }): CalendarDay[] {
@@ -43,6 +44,7 @@ export function generateCalendarMonth(year: number, month: number, data: { [key:
       isToday,
       count,
       records: data_.r,
+      timestamp: date.valueOf(),
     });
     date = date.add(1, 'day');
   }
