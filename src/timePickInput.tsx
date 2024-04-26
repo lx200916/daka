@@ -22,6 +22,9 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
         </Label>
         <TimePickerInput
           picker="hours"
+          onChange={(e) => {
+            console.log(e);
+          }}
           date={date}
           setDate={setDate}
           ref={hourRef}
