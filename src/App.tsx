@@ -277,7 +277,10 @@ function App() {
                       fetch("/get?userId=" + userId, {
                         method: "POST",
                         body: JSON.stringify({
-                          date: addTimeValue?.valueOf() + 8 * 60 * 60 * 1000,
+                          date:
+                            addTimeValue?.getTime() -
+                            addTimeValue?.getTimezoneOffset() * 60 * 1000 +
+                            8 * 60 * 60 * 1000,
                           userId: userId,
                         }),
                       }).then((response) => {
