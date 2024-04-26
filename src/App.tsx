@@ -272,18 +272,19 @@ function App() {
                   variant="outline"
                   className="w-full mt-2"
                   onClick={() => {
-                    fetch("/add?userId=" + userId, {
-                      method: "POST",
-                      body: JSON.stringify({
-                        date: addTimeValue,
-                        userId: userId,
-                      }),
-                    }).then((response) => {
-                      response.json().then(() => {
-                        setDrawerOpen(false);
-                        console.log(calendar);
+                    addTimeValue &&
+                      fetch("/add?userId=" + userId, {
+                        method: "POST",
+                        body: JSON.stringify({
+                          date: addTimeValue?.valueOf() - 8 * 60 * 60 * 1000,
+                          userId: userId,
+                        }),
+                      }).then((response) => {
+                        response.json().then(() => {
+                          setDrawerOpen(false);
+                          console.log(calendar);
+                        });
                       });
-                    });
                   }}
                 >
                   Submit
