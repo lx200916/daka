@@ -264,46 +264,24 @@ function App() {
                   onChange={(e) => setAddTimeValue(Number(e.target.value))}
                 />
                 <Button
+                  className="w-full mt-2"
                   onClick={() => {
                     fetch("/add?userId=" + userId, {
                       method: "POST",
                       body: JSON.stringify({
-                        timestamp: new Date().toISOString(),
-                        role: Role.Checkin,
-                        value: addTimeValue * 60 * 1000,
+                        date: addTimeValue,
+                        userId: userId,
                       }),
                     }).then((response) => {
                       response.json().then((data) => {
-                        setData(data["record"]);
-                        const [
-                          timestampofWeek,
-                          timestampofMonth,
-                          timestampofToday,
-                          records,
-                        ] = getWeeklyDuration(data["record"]);
-                        const today = new Date();
-                        setHoursofMonth(
-                          Math.floor(timestampofMonth / 3600 / 1000)
-                        );
-                        setHoursofWeek(
-                          Math.floor(timestampofWeek / 3600 / 1000)
-                        );
-                        setHoursofToday(
-                          Math.floor(timestampofToday / 60 / 1000)
-                        );
-                        setCalendar(
-                          generateCalendarMonth(
-                            today.getFullYear(),
-                            today.getMonth() + 1,
-                            records
-                          )
-                        );
+                        setDrawerOpen(false);
+
                         console.log(calendar);
                       });
                     });
                   }}
                 >
-                  Add
+                  Submit
                 </Button>
               </div>
             )}
