@@ -18,7 +18,7 @@ const postByUserId = async (context, params) => {
   if (!task) {
     return new Response("User Not Found", { status: 404 });
   }
-  const data = JSON.parse(task);
+  let data = JSON.parse(task);
   if (data[dateString]) {
     data[dateString].push({ time: date, date: date });
   } else {
