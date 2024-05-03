@@ -19,11 +19,13 @@ const postByUserId = async (context, params) => {
     return new Response("User Not Found", { status: 404 });
   }
   let data = JSON.parse(task);
-  if (data[dateString]) {
-    data[dateString].push({ time: date, date: date });
+  let record = data["record"] || {};
+  if (record[dateString]) {
+    record[dateString].push({ time: date, date: date });
   } else {
-    data[dateString] = [{ time: date, date: date }];
+    record[dateString] = [{ time: date, date: date }];
   }
+  data["record"] = record;
   await context.env.DAKA.put(userId, JSON.stringify(data));
   return new Response(JSON.stringify(data), { status: 200 });
 };
