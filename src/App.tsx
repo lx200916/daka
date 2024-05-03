@@ -285,6 +285,7 @@ function App() {
                       }).then((response) => {
                         response.json().then(() => {
                           setDrawerOpen(false);
+                          window.location.reload();
                           console.log(calendar);
                         });
                       });
