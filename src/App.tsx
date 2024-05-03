@@ -279,8 +279,7 @@ function App() {
                         body: JSON.stringify({
                           date:
                             addTimeValue?.getTime() -
-                            addTimeValue?.getTimezoneOffset() * 60 * 1000 +
-                            8 * 60 * 60 * 1000,
+                            addTimeValue?.getTimezoneOffset() * 60 * 1000,
                           userId: userId,
                         }),
                       }).then((response) => {

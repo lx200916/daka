@@ -9,6 +9,8 @@ const postByUserId = async (context, params) => {
   const body = await context.request.json();
   const { date, userId } = body;
   const dateString = getDateString(new Date(date));
+  console.log("dateString", dateString);
+  console.log("date", date);
   if (!dateString) {
     return new Response("Invalid Date", { status: 400 });
   }
@@ -19,6 +21,8 @@ const postByUserId = async (context, params) => {
   const data = JSON.parse(task);
   if (data[dateString]) {
     data[dateString].push({ time: date, date: date });
+  } else {
+    data[dateString] = [{ time: date, date: date }];
   }
   await context.env.DAKA.put(userId, JSON.stringify(data));
   return new Response(JSON.stringify(data), { status: 200 });
