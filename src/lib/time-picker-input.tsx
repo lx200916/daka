@@ -19,7 +19,12 @@ export interface TimePickerInputProps
   onRightFocus?: () => void;
   onLeftFocus?: () => void;
 }
-
+const guessIsMobileByUA = () => {
+  if (typeof window === "undefined") return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    window.navigator.userAgent
+  );
+};
 const TimePickerInput = React.forwardRef<
   HTMLInputElement,
   TimePickerInputProps
@@ -64,7 +69,7 @@ const TimePickerInput = React.forwardRef<
     );
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log(e.key);
+      console.log(e.key);
       if (e.key === "Tab") return;
       e.preventDefault();
       if (e.key === "ArrowRight") onRightFocus?.();
@@ -101,7 +106,7 @@ const TimePickerInput = React.forwardRef<
         const tempDate = new Date(date);
         setDate(setDateByType(tempDate, newValue, picker));
       }
-      if (data >= "0" && data <= "9") {
+      if (data >= "0" && data <= "9" && !guessIsMobileByUA()) {
         const newValue = !flag
           ? "0" + data
           : calculatedValue.slice(1, 2) + data;
