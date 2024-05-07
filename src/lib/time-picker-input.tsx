@@ -81,7 +81,7 @@ const TimePickerInput = React.forwardRef<
         const tempDate = new Date(date);
         setDate(setDateByType(tempDate, newValue, picker));
       }
-      if (e.key >= "0" && e.key <= "9") {
+      if (e.key >= "0" && e.key <= "9" && !guessIsMobileByUA()) {
         const newValue = !flag
           ? "0" + e.key
           : calculatedValue.slice(1, 2) + e.key;
@@ -106,7 +106,7 @@ const TimePickerInput = React.forwardRef<
         const tempDate = new Date(date);
         setDate(setDateByType(tempDate, newValue, picker));
       }
-      if (data >= "0" && data <= "9" && !guessIsMobileByUA()) {
+      if (data >= "0" && data <= "9") {
         const newValue = !flag
           ? "0" + data
           : calculatedValue.slice(1, 2) + data;
